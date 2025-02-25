@@ -99,4 +99,57 @@ router.post("/logout", usersController.logoutUser);
 // Posible ataque: IDOR (Insecure Direct Object Reference)
 router.get("/user/:id", usersController.getUserById);
 
+
+
+/**
+ * @swagger
+ * /users/user/token:
+ *   get:
+ *     summary: Valida el token de un usuario
+ *     tags: [Sessions]
+ *     parameters:
+ *       - in: query
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: El token del usuario
+ *     responses:
+ *       200:
+ *         description: Token válido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 valid:
+ *                   type: boolean
+ *                 session:
+ *                   $ref: '#/components/schemas/Session'
+ *       401:
+ *         description: Token inválido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 valid:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid token"
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+router.get("/users/user/token", usersController.validateToken);
+
+
+  
 module.exports = router;
